@@ -1,32 +1,42 @@
-require 'rubygems'
+# frozen_string_literal: true
+
+require 'open-uri'
+require 'pry'
 require 'nokogiri'
-require 'open-uri'page = Nokogiri::HTML(open("https://coinmarketcap.com/all/views/all/"))
 
-
-#recupere les noms de cryptomonnaie et les met dans une Array
-
-name_crypto = []
-
-all_name_crypto = page.xpath('//*[@class="text-left col-symbol"]').each do |name|
-name_crypto << name.text
+# ouverture de la page
+def liste
+  liste = Nokogiri::HTML(open('https://coinmarketcap.com/all/views/all/'))
+  liste.xpath('//*[@class="text-left col-symbol"]').each do |sy|
 end
-#print name_crypto#recupere les prix de cryptomonnaie et les met dans une Array
-price_crypto =  []
-all_price_crypto = page.xpath('//*[@class="price"]').each do |price|
-   price_crypto << price.text
-   end
 
-#regroupe les deux array en une hash
+# récupération des noms dans une array
+def name
+  cry_sym = []
+  cry_price = []
 
- crypto_list = Hash[name_crypto.zip(price_crypto)]
-puts crypto_list
-array_test = []
-array_test << crypto_list
-  print array_test
+  cry_sym << sy.content
+ end
+end
 
+# récupération des prix dans une array
+def prix
 
+price = Nokogiri::HTML(open('https://coinmarketcap.com/all/views/all/'))
+price.xpath('//*[@class = "price"]').each do |pr|
+  cry_price << pr.content
+  end
+end
 
-#    crypto_list_array = crypto_list.each do |hash|
-#     array_test << hash
-#    end
-#    print array_test
+# récupration des infos dans un hash
+def results_hash
+  cry_sym = name
+  cry_price = prix
+cry_prices = cry_price.map { |e| e.delete('$').to_f }
+h = Hash[cry_sym.zip(cry_prices.map)]
+hash_hash = []
+h.each { |i| hash_hash << { i[0] => i[1] } }
+print hash_hash
+end
+
+results_hash
