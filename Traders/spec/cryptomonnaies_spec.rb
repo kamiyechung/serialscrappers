@@ -1,20 +1,5 @@
-require_relative "../lib/cryptomonnaies"
+require_relative "../lib/serialscrappers"
 
-describe "def name method" do
-  it "should return TRUE " do
-    expect(is_multiple_of_3_or_5?(3)).to eq(true)
+it "results_hash" do 
+  expect({BTC: 3456.7}).to have_key(:BTC)
 
-  end
-
-  describe "def name method" do
-    it "should return TRUE " do
-      expect(is_multiple_of_3_or_5?(3)).to eq(true)
-
-    end
-
-
-    describe "def name method" do
-      it "should return TRUE " do
-        expect(is_multiple_of_3_or_5?(3)).to eq(true)
-
-      end
